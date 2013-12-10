@@ -1,5 +1,6 @@
 import System.Environment
+import Cards.PlayingCards as Cards
 
 main :: IO ()
-main = getArgs >>= print.(\x -> "Hello " ++ x) .head
+main = (print.unlines) $ map show Cards.deckOfCards
 
