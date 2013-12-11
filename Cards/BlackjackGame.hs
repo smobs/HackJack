@@ -8,6 +8,7 @@ newHand
  where
 import Cards.PlayingCards
 import Data.Maybe
+import Control.Applicative
 
 type HandValue = [Int]
 
@@ -19,7 +20,7 @@ newHand = [0]
 addCardToHand :: [Int] -> HandValue -> HandValue
 addCardToHand [] = id
 addCardToHand [i] = map (i + ) 
-addCardToHand (x:xs) = \hv -> map (x +) hv ++ addCardToHand xs hv
+addCardToHand (x:xs) = (++) <$> map (x +) <*> addCardToHand xs
 
 cardValue :: Card -> [Int]
 cardValue (Card _ Ace) = [1, 11]
