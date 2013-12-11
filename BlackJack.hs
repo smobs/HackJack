@@ -1,6 +1,23 @@
 import System.Environment
-import Cards.PlayingCards as Cards
+import Cards.PlayingCards as C
+import Cards.BlackjackGame
+
+
 
 main :: IO ()
-main = (print.unlines) $ map show Cards.deckOfCards
+main = do
+    let (h ,d) = move Twist C.deckOfCards []
+    print h
+
+gameLoop :: IO()
+gameLoop = do
+    m <- getLine
+    print m
+    
+
+
+
+
+
+
 
