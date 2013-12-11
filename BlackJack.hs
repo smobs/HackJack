@@ -6,8 +6,8 @@ import Cards.BlackjackGame
 
 main :: IO ()
 main = do
-    let (h ,d) = (move Twist) $ (move Twist) (newHand, C.deckOfCards)
-    print h
+    
+    print "hello"
 
 gameLoop :: IO()
 gameLoop = do

@@ -17,4 +17,5 @@ cabal-version:       >=1.8
 executable BlackJack
   main-is:          BlackJack.hs    
   -- other-modules:       
-  build-depends:       base ==4.6.*
+  build-depends:       base ==4.6.*,
+                       mtl

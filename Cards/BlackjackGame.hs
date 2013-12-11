@@ -9,8 +9,11 @@ newHand
 import Cards.PlayingCards
 import Data.Maybe
 import Control.Applicative
+import Control.Monad.State
 
 type HandValue = [Int]
+type GameState = (HandValue, DeckOfCards)
+
 
 data Move = Stick | Twist deriving (Eq, Read)
 
@@ -35,6 +38,11 @@ validHands = filter (21 <)
 score :: HandValue -> Int
 score = maximum.validHands
 
-move :: Move -> (HandValue, DeckOfCards) -> (HandValue, DeckOfCards)
-move Twist (h, (c:ds))= (addCardToHand (cardValue c) h , ds)
-move _ (h,d) = (h,d) 
+draw :: State GameState ()
+draw = do
+    (h, d:ds) <- get
+    put ( addCardToHand (cardValue d) h,ds)
+
+move :: Move -> State GameState ()
+move Twist = draw
+move _ = return ()
