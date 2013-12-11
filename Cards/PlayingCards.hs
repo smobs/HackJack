@@ -1,28 +1,16 @@
 module Cards.PlayingCards where
 
-data Suit = Hearts | Diamonds | Clubs | Spades deriving Show
+data Suit = Clubs | Diamonds | Hearts | Spades deriving (Eq, Show, Enum)
 
-data CardValue = Ace | King | Queen | Jack | CardValue Int 
+data CardValue = Ace | Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten | Jack | Queen | King deriving (Eq,Show, Enum)
 
-data Card = Card Suit CardValue
-
-instance Show Card where
-    show (Card s cv) = show cv ++ " of " ++ show s
-    
-instance Show CardValue where
-    show (CardValue v) = show v
-    show Ace = "Ace"
-    show King = "King"
-    show Queen = "Queen"
-    show Jack = "Jack"
     
 type DeckOfCards = [Card]
 
-suits :: [Suit]
-suits = [Hearts, Diamonds, Clubs, Spades]
+data Card = Card Suit CardValue deriving Eq
 
-cardValues :: [CardValue]
-cardValues = [Ace, King, Queen, Jack] ++ (map CardValue [2..10] )
+instance Show Card where
+    show (Card s v) = show v ++ " of " ++ show s
 
 deckOfCards :: DeckOfCards
-deckOfCards = concatMap (\x -> map (\f -> f x)(map Card suits)) cardValues
+deckOfCards = [(Card s v) | s <- [Hearts .. Spades], v <- [Ace .. King]]
