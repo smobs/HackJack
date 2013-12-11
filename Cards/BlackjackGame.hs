@@ -30,6 +30,6 @@ validHands = filter (21 <)
 score :: HandValue -> Int
 score = maximum.validHands
 
-move :: Move -> DeckOfCards -> HandValue -> (HandValue, DeckOfCards)
-move Twist (c:ds) h = (addCardToHand (cardValue c) h , ds)
-move _ d h = (h,d) 
+move :: Move -> (HandValue, DeckOfCards) -> (HandValue, DeckOfCards)
+move Twist (h, (c:ds))= (addCardToHand (cardValue c) h , ds)
+move _ (h,d) = (h,d) 
