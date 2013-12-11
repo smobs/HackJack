@@ -2,7 +2,8 @@ module Cards.BlackjackGame(
 Move(Stick, Twist),
 bust,
 score,
-move
+move,
+newHand
 )
  where
 import Cards.PlayingCards
@@ -11,6 +12,9 @@ import Data.Maybe
 type HandValue = [Int]
 
 data Move = Stick | Twist deriving (Eq, Read)
+
+newHand :: HandValue
+newHand = [0]
 
 addCardToHand :: [Int] -> HandValue -> HandValue
 addCardToHand [] = id
