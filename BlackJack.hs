@@ -6,21 +6,23 @@ import Control.Monad.State
 import System.Random
 import System.Random.Shuffle
 
+type Player = String
+
 main :: IO ()
 main = do
     deck <- shuffleM C.deckOfCards 
-    print "Welcome to Blackjack"
+    welcome
     win <- evalStateT gameLoop (newHand deck)
-    print $ if win then  "You won!" else "You lost!"
+    victory win
 
 gameLoop :: GameState Bool
 gameLoop = do
     ps <- playerGo
-    liftIO $ print $ "Your score: " ++ show ps
+    showScore "Your" ps
     (_, deck) <- get
     put (newHand deck)
     es <- dealerGo ps
-    liftIO $ print $ "Dealer score: " ++ show es
+    showScore "Dealer" ps
     return (es < ps)
    
 turn :: GameState Move -> GameState Int
@@ -50,9 +52,11 @@ dealerControl target = do
     s <- score
     return (if s < target then Twist else Stick)
     
-    
+showScore :: Player -> Int -> GameState ()
+showScore p = liftIO.print.( (p ++ " score: ") ++).show
 
+welcome :: IO ()
+welcome = print "Welcome to Blackjack"
 
-
-
-
+victory :: Bool -> IO()
+victory win = print $ if win then  "You won!" else "You lost!"
