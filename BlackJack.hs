@@ -5,16 +5,20 @@ import Control.Monad.State
 
 
 main :: IO ()
-main = do 
+main = do
+    print "Welcome to Blackjack"
     runStateT gameLoop newGameState
     return ()
 
 gameLoop :: GameState Int
 gameLoop = do
+    liftIO $ print "Stick or Twist?"
     m <- liftIO $ getLine
     stop <- playerTurn (read m)
     (h, _) <- get
-    liftIO $ print  h
+    liftIO $ print h
+    s <- score
+    liftIO $ print s
     if stop 
         then score
         else gameLoop
