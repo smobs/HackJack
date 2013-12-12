@@ -20,4 +20,7 @@ executable BlackJack
   build-depends:       base ==4.6.*,
                        mtl,
                        random-shuffle,
-                       random
+                       random,
+                       reactive-banana-threepenny,
+                       threepenny-gui,
+                       reactive-banana
