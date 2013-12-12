@@ -41,7 +41,7 @@ validHands :: HandValue -> HandValue
 validHands = filter (21 >=)
 
 calcScore :: HandValue -> Int
-calcScore = maximum.validHands
+calcScore = foldr max  0.validHands
 
 mapHands ::  (HandValue -> a) -> GameState a
 mapHands f = do
@@ -54,6 +54,7 @@ score = mapHands calcScore
 draw :: GameState ()
 draw = do
     (h, d:ds) <- get
+    liftIO $ print $ "Drawn the " ++ show d
     put ( addCardToHand (cardValue d) h,ds)
 
 playerTurn :: Move -> GameState Bool
