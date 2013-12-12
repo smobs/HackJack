@@ -1,9 +1,8 @@
 module Cards.BlackjackGame(
 Move(Stick, Twist),
-bust,
-score,
-move,
-newHand
+playerTurn,
+newGameState,
+GameState
 )
  where
 import Cards.PlayingCards
@@ -12,13 +11,12 @@ import Control.Applicative
 import Control.Monad.State
 
 type HandValue = [Int]
-type GameState = (HandValue, DeckOfCards)
-
+type GameState a = StateT (HandValue, DeckOfCards) IO a
 
 data Move = Stick | Twist deriving (Eq, Read)
 
-newHand :: HandValue
-newHand = [0]
+newGameState :: (HandValue, DeckOfCards)
+newGameState = ([0],  deckOfCards)
 
 addCardToHand :: [Int] -> HandValue -> HandValue
 addCardToHand [] = id
@@ -35,14 +33,24 @@ bust = null.validHands
 validHands :: HandValue -> HandValue
 validHands = filter (21 <)
 
-score :: HandValue -> Int
-score = maximum.validHands
+calcScore :: HandValue -> Int
+calcScore = maximum.validHands
 
-draw :: State GameState ()
+mapHands ::  (HandValue -> a) -> GameState a
+mapHands f = do
+    (h, _) <- get
+    return (f h)
+
+score ::  GameState Int
+score = mapHands calcScore
+
+draw :: GameState ()
 draw = do
     (h, d:ds) <- get
     put ( addCardToHand (cardValue d) h,ds)
 
-move :: Move -> State GameState ()
-move Twist = draw
-move _ = return ()
+playerTurn :: Move -> GameState Bool
+playerTurn Stick = return True
+playerTurn Twist = do
+    draw
+    mapHands bust

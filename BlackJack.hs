@@ -1,19 +1,22 @@
 import System.Environment
 import Cards.PlayingCards as C
 import Cards.BlackjackGame
-
+import Control.Monad.State
 
 
 main :: IO ()
-main = do
-    
-    print "hello"
+main = do 
+    runStateT gameLoop newGameState
+    return ()
 
-gameLoop :: IO()
+gameLoop :: GameState Int
 gameLoop = do
-    m <- getLine
-    print m
+    m <- liftIO $ getLine
+    return 1
+
     
+
+
 
 
 
