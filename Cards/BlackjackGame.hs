@@ -2,7 +2,8 @@ module Cards.BlackjackGame(
 Move(Stick, Twist),
 playerTurn,
 newGameState,
-GameState
+GameState,
+score
 )
  where
 import Cards.PlayingCards
@@ -31,7 +32,7 @@ bust :: HandValue -> Bool
 bust = null.validHands
 
 validHands :: HandValue -> HandValue
-validHands = filter (21 <)
+validHands = filter (21 >=)
 
 calcScore :: HandValue -> Int
 calcScore = maximum.validHands

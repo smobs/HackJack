@@ -12,7 +12,13 @@ main = do
 gameLoop :: GameState Int
 gameLoop = do
     m <- liftIO $ getLine
-    return 1
+    stop <- playerTurn (read m)
+    (h, _) <- get
+    liftIO $ print  h
+    if stop 
+        then score
+        else gameLoop
+        
 
     
 
