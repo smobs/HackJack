@@ -8,32 +8,44 @@ main :: IO ()
 main = do
     print "Welcome to Blackjack"
     win <- evalStateT gameLoop newGameState
-    if win
-        then print "You won!"
-        else print "You lost!"
+    print $ if win then  "You won!" else "You lost!"
 
 gameLoop :: GameState Bool
 gameLoop = do
     ps <- playerGo
-    liftIO $ print $ "Your score: " ++ (show ps)
-    es <- dealerGo
+    liftIO $ print $ "Your score: " ++ show ps
     newHand
-    liftIO $ print $ "Dealer score: " ++ (show es)
+    es <- dealerGo ps
+    liftIO $ print $ "Dealer score: " ++ show es
     return (es < ps)
-        
-playerGo:: GameState Int
-playerGo = do
-    liftIO $ print "Stick or Twist?"
-    m <- liftIO getLine
-    stop <- playerTurn (read m)
+   
+turn :: GameState Move -> GameState Int
+turn getMove = do
+    m <- getMove
+    stop <- playerTurn m
     (h, _) <- get
     liftIO $ print h
     if stop 
         then score
-        else playerGo
+        else turn getMove
+        
+playerGo :: GameState Int
+playerGo = turn playerControl
 
-dealerGo :: GameState Int
-dealerGo = return 1
+dealerGo :: Int -> GameState Int
+dealerGo = turn.dealerControl
+
+playerControl :: GameState Move
+playerControl = do
+    liftIO $ print "Stick or Twist?"
+    m <- liftIO getLine
+    return (read m)
+   
+dealerControl :: Int -> GameState Move
+dealerControl target = do
+    s <- score
+    return (if s < target then Twist else Stick)
+    
     
 
 
