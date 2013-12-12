@@ -14,3 +14,5 @@ instance Show Card where
 
 deckOfCards :: DeckOfCards
 deckOfCards = [Card s v | s <- [Hearts .. Spades], v <- [Ace .. King]]
+
+

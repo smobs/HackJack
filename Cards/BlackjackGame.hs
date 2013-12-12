@@ -1,7 +1,6 @@
 module Cards.BlackjackGame(
 Move(Stick, Twist),
 playerTurn,
-newGameState,
 newHand,
 GameState,
 score
@@ -17,13 +16,8 @@ type GameState a = StateT (HandValue, DeckOfCards) IO a
 
 data Move = Stick | Twist deriving (Eq, Read)
 
-newGameState :: (HandValue, DeckOfCards)
-newGameState = ([0],  deckOfCards)
-
-newHand :: GameState ()
-newHand = do
-    (h, d) <- get
-    put ([0], d)
+newHand :: DeckOfCards -> (HandValue, DeckOfCards)
+newHand d = ([0], d)
 
 addCardToHand :: [Int] -> HandValue -> HandValue
 addCardToHand [] = id
