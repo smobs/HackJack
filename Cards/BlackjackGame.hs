@@ -33,7 +33,7 @@ computeHandValue' :: Hand ->  [Int]
 computeHandValue' [] = [0]
 computeHandValue' [i] = cardValue i
 computeHandValue' (x:xs) = let cv = computeHandValue' xs in
-      cardValue x >>= (: cv)
+       cardValue x >>= (\y -> map(y+) cv)
 
 getHandScore :: [Int] -> HandScore
 getHandScore [] = Score 0
