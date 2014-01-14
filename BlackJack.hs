@@ -30,10 +30,11 @@ turn getMove = do
     m <- getMove
     stop <- playerTurn m
     (h, _) <- get
-    liftIO $ print h
     if stop 
         then score
-        else turn getMove
+        else do
+            liftIO $ print h
+            turn getMove
         
 playerGo :: GameState HandScore
 playerGo = turn playerControl
