@@ -22,10 +22,10 @@ gameLoop = do
     (_, deck) <- get
     put (newHand deck)
     es <- dealerGo ps
-    showScore "Dealer" ps
+    showScore "Dealer" es
     return (es < ps)
    
-turn :: GameState Move -> GameState Int
+turn :: GameState Move -> GameState HandScore
 turn getMove = do
     m <- getMove
     stop <- playerTurn m
@@ -35,10 +35,10 @@ turn getMove = do
         then score
         else turn getMove
         
-playerGo :: GameState Int
+playerGo :: GameState HandScore
 playerGo = turn playerControl
 
-dealerGo :: Int -> GameState Int
+dealerGo :: HandScore -> GameState HandScore
 dealerGo = turn.dealerControl
 
 playerControl :: GameState Move
@@ -47,12 +47,12 @@ playerControl = do
     m <- liftIO getLine
     return (read m)
    
-dealerControl :: Int -> GameState Move
+dealerControl :: HandScore -> GameState Move
 dealerControl target = do
     s <- score
     return (if s < target then Twist else Stick)
     
-showScore :: Player -> Int -> GameState ()
+showScore :: Player -> HandScore -> GameState ()
 showScore p = liftIO.print.( (p ++ " score: ") ++).show
 
 welcome :: IO ()
