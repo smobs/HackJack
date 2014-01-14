@@ -15,4 +15,11 @@ instance Show Card where
 deckOfCards :: DeckOfCards
 deckOfCards = [Card s v | s <- [Hearts .. Spades], v <- [Ace .. King]]
 
+isRoyal :: Card -> Bool
+isRoyal (Card _ Jack) = True
+isRoyal (Card _ Queen) = True
+isRoyal (Card _ King) = True
+isRoyal (Card _ _) = False
 
+value :: CardValue -> Card -> Bool
+value cv (Card _ c) = cv == c
