@@ -1,6 +1,6 @@
 import System.Environment
 import Cards.PlayingCards as C
-import Cards.BlackjackGame
+import Cards.BlackjackGameState
 import Control.Monad.State
 
 import System.Random

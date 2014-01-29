@@ -1,4 +1,4 @@
-module Cards.BlackjackGame(
+module Cards.BlackjackGameState(
 Move(Stick, Twist),
 playerTurn,
 newHand,
