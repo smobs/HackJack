@@ -1,26 +1,22 @@
 import System.Environment
-import Cards.PlayingCards as C
 import Cards.BlackjackGameState
 import Control.Monad.State
-
-import System.Random
-import System.Random.Shuffle
 
 type Player = String
 
 main :: IO ()
 main = do
-    deck <- shuffleM C.deckOfCards 
     welcome
-    win <- evalStateT gameLoop (newHand deck)
+    startState <- initialise
+    win <- evalStateT gameLoop startState
     victory win
 
 gameLoop :: GameState Bool
 gameLoop = do
+    drawNewPlayerHand
     ps <- playerGo
     showScore "Your" ps
-    (_, deck) <- get
-    put (newHand deck)
+    drawNewPlayerHand
     es <- dealerGo ps
     showScore "Dealer" es
     return (es < ps)
