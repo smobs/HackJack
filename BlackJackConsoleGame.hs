@@ -23,14 +23,12 @@ gameLoop = do
    
 turn :: GameState Move -> GameState HandScore
 turn getMove = do
+    printHand
     m <- getMove
     stop <- playerTurn m
-    (h, _) <- get
     if stop 
         then score
-        else do
-            liftIO $ print h
-            turn getMove
+        else turn getMove
         
 playerGo :: GameState HandScore
 playerGo = turn playerControl

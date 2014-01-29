@@ -5,7 +5,8 @@ drawNewPlayerHand,
 GameState,
 score,
 initialise,
-HandScore
+HandScore,
+printHand
 )
 where
 import Control.Applicative
@@ -39,7 +40,10 @@ draw = do
     put ( d:h,ds)
     
 drawNewPlayerHand :: GameState ()
-drawNewPlayerHand = emptyHand
+drawNewPlayerHand = do
+    emptyHand
+    draw
+    draw
 
 emptyHand :: GameState ()
 emptyHand = do
@@ -54,3 +58,9 @@ playerTurn Twist = do
     case s of 
         Score _ -> return False
         _ -> return True
+        
+printHand :: GameState()
+printHand = do
+    (h, _) <- get
+    liftIO $ print h
+
