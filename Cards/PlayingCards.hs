@@ -1,8 +1,8 @@
 module Cards.PlayingCards where
 
-data Suit = Clubs | Diamonds | Hearts | Spades deriving (Eq, Show, Enum)
+data Suit = Clubs | Diamonds | Hearts | Spades deriving (Eq, Show, Enum,Bounded)
 
-data CardValue = Ace | Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten | Jack | Queen | King deriving (Eq,Show, Enum)
+data CardValue = Ace | Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten | Jack | Queen | King deriving (Eq,Show, Enum,Bounded)
 
     
 type DeckOfCards = [Card]
@@ -23,3 +23,4 @@ isRoyal (Card _ _) = False
 
 value :: CardValue -> Card -> Bool
 value cv (Card _ c) = cv == c
+
