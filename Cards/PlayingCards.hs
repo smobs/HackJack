@@ -13,7 +13,7 @@ instance Show Card where
     show (Card s v) = show v ++ " of " ++ show s
 
 deckOfCards :: DeckOfCards
-deckOfCards = [Card s v | s <- [Hearts .. Spades], v <- [Ace .. King]]
+deckOfCards = [Card s v | s <- [Clubs .. Spades], v <- [Ace .. King]]
 
 isRoyal :: Card -> Bool
 isRoyal (Card _ Jack) = True
