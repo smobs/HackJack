@@ -2,7 +2,7 @@ module Cards.Blackjack(
 computeHandValue,
 Hand,
 DeckOfCards,
-HandScore(Score),
+HandScore(Score, Bust),
 newHand,
 blackjackDeck
 )
